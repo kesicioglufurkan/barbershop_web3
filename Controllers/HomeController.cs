@@ -1,9 +1,11 @@
 using System.Diagnostics;
-using barbershop_web3.Models;
+using barbershop_web2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace barbershop_web3.Controllers
+namespace barbershop_web2.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
