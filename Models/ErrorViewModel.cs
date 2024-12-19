@@ -1,4 +1,4 @@
-namespace barbershop_web2.Models
+namespace barbershop_web3.Models
 {
     public class ErrorViewModel
     {

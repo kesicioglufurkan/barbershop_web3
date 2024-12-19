@@ -1,2 +1,57 @@
-﻿<h1>Admin Panel</h1>
-<p>Welcome, Admin! You can manage the application from here.</p>
+﻿@model IEnumerable<barbershop_web3.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h1>Admin Panel</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Employee</th>
+            <th>Service</th>
+            <th>Appointment Time</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentID</td>
+                <td>@appointment.User?.UserName</td>
+                <td>@appointment.Employee?.EmployeeName</td>
+                <td>@appointment.ServiceID</td>
+                <td>@appointment.AppointmentTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@appointment.AppointmentState</td>
+                <td>
+                    @if (appointment.AppointmentState == "0")
+                    {
+                        <form asp-action="UpdateState" method="post">
+                            <input type="hidden" name="id" value="@appointment.AppointmentID" />
+                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="badge bg-primary">Approved</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

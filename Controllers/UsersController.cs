@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using barbershop_web2.Models;
+using barbershop_web3.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace barbershop_web2.Controllers
+namespace barbershop_web3.Controllers
 {
     public class UsersController : Controller
     {
@@ -19,8 +19,14 @@ namespace barbershop_web2.Controllers
         [Authorize(Roles = "Admin")] // Sadece Admin rolüne izin veriliyor
         public IActionResult AdminPanel()
         {
-            return View();
+
+            var appointments = s.Appointments
+                .Include(a => a.User)
+                .Include(a => a.Employee)
+                .ToList(); // İlişkili verilerle birlikte tüm randevuları al.
+            return View(appointments);
         }
+
 
         [Authorize]
         public IActionResult Index()
@@ -31,10 +37,15 @@ namespace barbershop_web2.Controllers
 
         public IActionResult Login()
         {
-           
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Login(User user)
@@ -50,8 +61,10 @@ namespace barbershop_web2.Controllers
                     : "User";
 
                 var claims = new List<Claim>
-        {
+            {
+
             new Claim(ClaimTypes.Name, existingUser.UserNick),
+            new Claim(ClaimTypes.NameIdentifier, existingUser.UserID.ToString()), // Kullanıcı ID'si
             new Claim(ClaimTypes.Role, role) // Role ekleniyor
         };
 
@@ -69,6 +82,8 @@ namespace barbershop_web2.Controllers
                 {
                     return RedirectToAction("AdminPanel");
                 }
+
+
 
                 return RedirectToAction("Index");
             }
@@ -111,6 +126,23 @@ namespace barbershop_web2.Controllers
             return RedirectToAction("userAdd");
         }
 
+        [HttpPost]
+        public IActionResult UpdateState(int id)
+        {
+            var appointment = s.Appointments.FirstOrDefault(a => a.AppointmentID == id);
+            if (appointment != null)
+            {
+                appointment.AppointmentState = "1"; // Durum güncelleme işlemi
+                s.SaveChanges();
+                TempData["SuccessMessage"] = "Appointment state updated successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Appointment not found!";
+            }
+
+            return RedirectToAction("AdminPanel");
+        }
 
     }
 }

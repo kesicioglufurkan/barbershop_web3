@@ -5,18 +5,71 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using barbershop_web2.Models;
+using barbershop_web3.Models;
 
-namespace barbershop_web2.Controllers
+namespace barbershop_web3.Controllers
 {
     public class AppointmentsController : Controller
     {
         SaloonContext s = new SaloonContext();
 
-        public IActionResult appoCreate()
+        /**public IActionResult appoCreate()
+                
+
         {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                TempData["ErrorMessage"] = "User not authenticated. Please log in.";
+                return RedirectToAction("Login", "Account");
+            }
+            ViewBag.UserIDL = int.Parse(userIdClaim); // Kullanıcı ID'sini ViewBag'e atıyoruz
             ViewBag.EmployeeList = new SelectList(s.Employees, "EmployeeID", "EmployeeName");
             ViewBag.ServiceList = new SelectList(s.Services, "ServiceID", "ServiceName");
+
+            return View();
+        } */
+
+        [HttpGet]
+        public JsonResult GetEmployeesBySaloon(int saloonId)
+        {
+            var employees = s.Employees
+                .Where(e => e.SaloonID == saloonId)
+                .Select(e => new
+                {
+                    e.EmployeeID,
+                    e.EmployeeName
+                })
+                .ToList();
+
+            return Json(employees);
+        }
+        [HttpGet]
+        public JsonResult GetServicesByEmployee(int employeeId)
+        {
+            var services = s.Employees
+                .Where(e => e.EmployeeID == employeeId)
+                .SelectMany(e => e.Services)
+                .Select(s => new
+                {
+                    s.ServiceID,
+                    s.ServiceName
+                })
+                .ToList();
+
+            return Json(services);
+        }
+
+        public IActionResult appoCreate()
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                TempData["ErrorMessage"] = "User not authenticated. Please log in.";
+                return RedirectToAction("Login", "Account");
+            }
+            ViewBag.UserIDL = int.Parse(userIdClaim); // Kullanıcı ID'sini ViewBag'e atıyoruz
+            ViewBag.SaloonList = s.Saloons.ToList(); // Salon listesini ViewBag'e ekle
 
             return View();
         }
@@ -29,7 +82,14 @@ namespace barbershop_web2.Controllers
             var selectedService = s.Services
                     .FirstOrDefault(service => service.ServiceID == appointment.ServiceID);
 
-                if (selectedService == null)
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                TempData["ErrorMessage"] = "User not authenticated. Please log in.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (selectedService == null)
                 {
                     TempData["ErrorMessage"] = "Service not found.";
                     return RedirectToAction("Create");
@@ -64,12 +124,13 @@ namespace barbershop_web2.Controllers
                     return RedirectToAction("appoCreate");
                 }
 
-                // Randevunun ücret ve süre bilgilerini ekle
+
+            // Randevunun ücret ve süre bilgilerini ekle
                 appointment.appointmentMoney = (int)selectedService.Price;
                 appointment.appointmentHour = selectedService.Time;
-
-                // Yeni randevuyu kaydet
-                s.Appointments.Add(appointment);
+                 appointment.UserID = int.Parse(userIdClaim);
+            // Yeni randevuyu kaydet
+            s.Appointments.Add(appointment);
                 s.SaveChanges();
 
                 TempData["SuccessMessage"] = "Appointment created successfully!";

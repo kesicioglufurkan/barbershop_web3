@@ -5,51 +5,68 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using barbershop_web2.Models;
+using barbershop_web3.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace barbershop_web2.Controllers
+namespace barbershop_web3.Controllers
 {
     public class EmployeeController : Controller
     {
         SaloonContext s = new SaloonContext();
 
+      
+
         [Authorize(Roles = "Admin")]
+        // Employee Create GET Method
         public IActionResult employeeCreate()
         {
-            ViewBag.SaloonList = s.Saloons
-            .Select(s => new SelectListItem
+            // Saloon Listesi
+            ViewBag.SaloonList = new SelectList(s.Saloons, "SaloonID", "SaloonName");
+
+            // Service Listesi
+            var serviceList = s.Services.Select(service => new SelectListItem
             {
-                Value = s.SaloonID.ToString(),
-                Text = s.SaloonName
+                Value = service.ServiceID.ToString(),
+                Text = service.ServiceName
             }).ToList();
 
-            ViewBag.ServiceList = s.Services
-            .Select(s => new SelectListItem
-            {
-                Value = s.ServiceID.ToString(),
-                Text = s.ServiceName
-            }).ToList();
+            ViewBag.ServiceList = serviceList;
 
+            // Eğer servisler boşsa, hata mesajı gösterebilirsiniz
+            if (serviceList.Count == 0)
+            {
+                TempData["msj"] = "No services available. Please add services first.";
+            }
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult employeeCreate(Employee employee)
+        // Employee Create POST Method
+        public IActionResult employeeCreate(Employee employee, int[] SelectedServices)
         {
 
-           
-
+                // Yeni çalışan kaydı
                 s.Employees.Add(employee);
                 s.SaveChanges();
-                TempData["msj"] = "Employee created successfully!";
-                return RedirectToAction("Index","Home");
-            
 
-            TempData["msj"] = "Failed to create employee. Please check the inputs.";
-            return View(employee);
+                // Çalışana seçilen hizmetleri ekleme
+                foreach (var serviceId in SelectedServices)
+                {
+                    employee.Services ??= new List<Service>();
+                    var service = s.Services.FirstOrDefault(s => s.ServiceID == serviceId);
+                    if (service != null)
+                    {
+                        employee.Services.Add(service);
+                    }
+                }
+
+                s.SaveChanges();
+
+                TempData["msj"] = "Employee created successfully!";
+                return RedirectToAction("Index");
+;
         }
     }
 

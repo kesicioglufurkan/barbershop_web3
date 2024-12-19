@@ -1,7 +1,7 @@
-﻿using barbershop_web2.Models;
+﻿using barbershop_web3.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace barbershop_web2.Models
+namespace barbershop_web3.Models
 {
     public class Service
     {
@@ -16,8 +16,7 @@ namespace barbershop_web2.Models
         [Required]
         [Display(Name = "Price")]
         public decimal Price { get; set; }
-
-        public ICollection<Employee> Employees { get; set; }
-
+        public ICollection<Employee> Employees { get; set; } // Çoklu ilişki
     }
+
 }

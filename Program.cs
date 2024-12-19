@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace barbershop_web2
+namespace barbershop_web3
 {
     public class Program
     {

@@ -1,7 +1,7 @@
-﻿using barbershop_web2.Models;
+﻿using barbershop_web3.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
-namespace barbershop_web2.Models
+namespace barbershop_web3.Models
 {
     public class Appointment
     {

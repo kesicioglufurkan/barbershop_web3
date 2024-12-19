@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using barbershop_web2.Models;
+using barbershop_web3.Models;
 
 #nullable disable
 
@@ -22,7 +22,22 @@ namespace barbershop_web3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("barbershop_web2.Models.Appointment", b =>
+            modelBuilder.Entity("EmployeeService", b =>
+                {
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceID")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeID", "ServiceID");
+
+                    b.HasIndex("ServiceID");
+
+                    b.ToTable("EmployeeService");
+                });
+
+            modelBuilder.Entity("barbershop_web3.Models.Appointment", b =>
                 {
                     b.Property<int>("AppointmentID")
                         .ValueGeneratedOnAdd()
@@ -61,7 +76,7 @@ namespace barbershop_web3.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Employee", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeID")
                         .ValueGeneratedOnAdd()
@@ -77,9 +92,6 @@ namespace barbershop_web3.Migrations
                     b.Property<int>("SaloonID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("totalMoney")
                         .HasColumnType("int");
 
@@ -90,12 +102,10 @@ namespace barbershop_web3.Migrations
 
                     b.HasIndex("SaloonID");
 
-                    b.HasIndex("ServiceID");
-
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Saloon", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Saloon", b =>
                 {
                     b.Property<int>("SaloonID")
                         .ValueGeneratedOnAdd()
@@ -113,7 +123,7 @@ namespace barbershop_web3.Migrations
                     b.ToTable("Saloons");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Service", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Service", b =>
                 {
                     b.Property<int>("ServiceID")
                         .ValueGeneratedOnAdd()
@@ -137,7 +147,7 @@ namespace barbershop_web3.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.User", b =>
+            modelBuilder.Entity("barbershop_web3.Models.User", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -164,15 +174,30 @@ namespace barbershop_web3.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Appointment", b =>
+            modelBuilder.Entity("EmployeeService", b =>
                 {
-                    b.HasOne("barbershop_web2.Models.Employee", "Employee")
+                    b.HasOne("barbershop_web3.Models.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("barbershop_web3.Models.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("barbershop_web3.Models.Appointment", b =>
+                {
+                    b.HasOne("barbershop_web3.Models.Employee", "Employee")
                         .WithMany("Appointments")
                         .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("barbershop_web2.Models.User", "User")
+                    b.HasOne("barbershop_web3.Models.User", "User")
                         .WithMany("Appointments")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -183,41 +208,28 @@ namespace barbershop_web3.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Employee", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Employee", b =>
                 {
-                    b.HasOne("barbershop_web2.Models.Saloon", "Saloon")
+                    b.HasOne("barbershop_web3.Models.Saloon", "Saloon")
                         .WithMany("Employees")
                         .HasForeignKey("SaloonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("barbershop_web2.Models.Service", "Service")
-                        .WithMany("Employees")
-                        .HasForeignKey("ServiceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Saloon");
-
-                    b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Employee", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Employee", b =>
                 {
                     b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Saloon", b =>
+            modelBuilder.Entity("barbershop_web3.Models.Saloon", b =>
                 {
                     b.Navigation("Employees");
                 });
 
-            modelBuilder.Entity("barbershop_web2.Models.Service", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("barbershop_web2.Models.User", b =>
+            modelBuilder.Entity("barbershop_web3.Models.User", b =>
                 {
                     b.Navigation("Appointments");
                 });

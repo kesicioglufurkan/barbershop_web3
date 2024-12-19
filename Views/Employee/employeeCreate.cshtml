@@ -1,4 +1,4 @@
-﻿@model barbershop_web2.Models.Employee
+﻿@model barbershop_web3.Models.Employee
 
 <div class="alert-danger">
     @TempData["msj"]
@@ -10,12 +10,14 @@
         <form asp-action="employeeCreate" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <!-- Employee Name -->
             <div class="form-group">
                 <label asp-for="EmployeeName" class="control-label"></label>
                 <input asp-for="EmployeeName" class="form-control" />
                 <span asp-validation-for="EmployeeName" class="text-danger"></span>
             </div>
 
+            <!-- Saloon Selection -->
             <div class="form-group">
                 <label asp-for="SaloonID" class="control-label"></label>
                 <select asp-for="SaloonID" class="form-control" asp-items="ViewBag.SaloonList">
@@ -24,15 +26,25 @@
                 <span asp-validation-for="SaloonID" class="text-danger"></span>
             </div>
 
+            <!-- Services Selection -->
             <div class="form-group">
-                <label asp-for="ServiceID" class="control-label"></label>
-                <select asp-for="ServiceID" class="form-control" asp-items="ViewBag.ServiceList">
-                    <option value="">-- Select a Service --</option>
-                </select>
-                <span asp-validation-for="ServiceID" class="text-danger"></span>
+                <label for="SelectedServices" class="control-label">Services</label>
+                @if (ViewBag.ServiceList != null && ViewBag.ServiceList.Count > 0)
+                {
+                    <select id="SelectedServices" name="SelectedServices" class="form-control" multiple>
+                        @foreach (var service in ViewBag.ServiceList)
+                        {
+                            <option value="@service.Value">@service.Text</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <p>No services available. Please add services first.</p>
+                }
+                <small class="form-text text-muted">Hold Ctrl (Windows) or Command (Mac) to select multiple services.</small>
             </div>
-
-
+            <!-- Submit Button -->
             <div class="form-group">
                 <input type="submit" value="Create Employee" class="btn btn-primary" />
             </div>

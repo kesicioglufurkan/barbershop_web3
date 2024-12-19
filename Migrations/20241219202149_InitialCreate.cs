@@ -62,7 +62,6 @@ namespace barbershop_web3.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SaloonID = table.Column<int>(type: "int", nullable: false),
-                    ServiceID = table.Column<int>(type: "int", nullable: false),
                     totalMoney = table.Column<int>(type: "int", nullable: true),
                     totelWorkHour = table.Column<int>(type: "int", nullable: true)
                 },
@@ -74,12 +73,6 @@ namespace barbershop_web3.Migrations
                         column: x => x.SaloonID,
                         principalTable: "Saloons",
                         principalColumn: "SaloonID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Employees_Services_ServiceID",
-                        column: x => x.ServiceID,
-                        principalTable: "Services",
-                        principalColumn: "ServiceID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -114,6 +107,30 @@ namespace barbershop_web3.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeeService",
+                columns: table => new
+                {
+                    EmployeeID = table.Column<int>(type: "int", nullable: false),
+                    ServiceID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeService", x => new { x.EmployeeID, x.ServiceID });
+                    table.ForeignKey(
+                        name: "FK_EmployeeService_Employees_EmployeeID",
+                        column: x => x.EmployeeID,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeService_Services_ServiceID",
+                        column: x => x.ServiceID,
+                        principalTable: "Services",
+                        principalColumn: "ServiceID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_EmployeeID",
                 table: "Appointments",
@@ -130,8 +147,8 @@ namespace barbershop_web3.Migrations
                 column: "SaloonID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_ServiceID",
-                table: "Employees",
+                name: "IX_EmployeeService_ServiceID",
+                table: "EmployeeService",
                 column: "ServiceID");
         }
 
@@ -142,16 +159,19 @@ namespace barbershop_web3.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "EmployeeService");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Saloons");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Services");
+
+            migrationBuilder.DropTable(
+                name: "Saloons");
         }
     }
 }
