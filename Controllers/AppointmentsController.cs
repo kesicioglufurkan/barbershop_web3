@@ -13,17 +13,39 @@ namespace barbershop_web3.Controllers
     {
         SaloonContext s = new SaloonContext();
 
-        /**public IActionResult appoCreate()
-                
-
+        //teset
+        [HttpGet]
+        public JsonResult GetEmployeesBySaloon(int saloonId)
         {
-            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim))
-            {
-                TempData["ErrorMessage"] = "User not authenticated. Please log in.";
-                return RedirectToAction("Login", "Account");
-            }
-            ViewBag.UserIDL = int.Parse(userIdClaim); // Kullanıcı ID'sini ViewBag'e atıyoruz
+            var employees = s.Employees
+                .Where(e => e.SaloonID == saloonId)
+                .Select(e => new
+                {
+                    e.EmployeeID,
+                    e.EmployeeName
+                })
+                .ToList();
+
+            return Json(employees);
+        }
+        [HttpGet]
+        public JsonResult GetServicesByEmployee(int employeeId)
+        {
+            var services = s.Employees
+                .Where(e => e.EmployeeID == employeeId)
+                .SelectMany(e => e.Services)
+                .Select(s => new
+                {
+                    s.ServiceID,
+                    s.ServiceName
+                })
+                .ToList();
+
+            return Json(services);
+        }
+
+        public IActionResult appoCreate()
+        {
             ViewBag.EmployeeList = new SelectList(s.Employees, "EmployeeID", "EmployeeName");
             ViewBag.ServiceList = new SelectList(s.Services, "ServiceID", "ServiceName");
 
