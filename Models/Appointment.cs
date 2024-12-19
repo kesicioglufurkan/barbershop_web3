@@ -5,6 +5,7 @@ namespace barbershop_web3.Models
 {
     public class Appointment
     {
+        //20.12
 
         [Key]
         public int AppointmentID { get; set; }
