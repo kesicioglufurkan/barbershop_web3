@@ -1,0 +1,39 @@
+﻿@model barbershop_web3.Models.Saloon
+
+@{
+    ViewData["Title"] = "Create Salon";
+}
+
+<h2>Create Salon</h2>
+
+<div class="alert-danger">
+    @TempData["msj"]
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="SaloonCreate" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="SaloonName" class="control-label"></label>
+                <input asp-for="SaloonName" class="form-control" />
+                <span asp-validation-for="SaloonName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create Salon" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Salon List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

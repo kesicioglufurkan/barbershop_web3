@@ -104,26 +104,22 @@ namespace barbershop_web3.Controllers
         }
 
 
-        [Authorize]
+  
         public IActionResult userAdd()
         {
             return View();
         }
 
-        [Authorize]
+
         [HttpPost]
         public IActionResult userSave(User user)
         {
-            if (ModelState.IsValid)
-            {
+            
                 s.Users.Add(user);
                 s.SaveChanges();
                 TempData["msj"] = "User eklendi";
                 return RedirectToAction("Index");
-            }
 
-            TempData["msj"] = "Lütfen Dataları düzgün giriniz";
-            return RedirectToAction("userAdd");
         }
 
         [HttpPost]

@@ -31,7 +31,7 @@ namespace barbershop_web3.Controllers
         } */
 
         [HttpGet]
-        public JsonResult GetEmployeesBySaloon(int saloonId)
+        public JsonResult GetEmployeesBySaloon(int saloonId) //LINQ
         {
             var employees = s.Employees
                 .Where(e => e.SaloonID == saloonId)
@@ -47,19 +47,17 @@ namespace barbershop_web3.Controllers
         [HttpGet]
         public JsonResult GetServicesByEmployee(int employeeId)
         {
-            var services = s.Employees
-                .Where(e => e.EmployeeID == employeeId)
-                .SelectMany(e => e.Services)
-                .Select(s => new
+            var services = s.EmployeeServices
+                .Where(es => es.EmployeeID == employeeId) // Ara tabloda EmployeeID'ye göre filtreleme
+                .Select(es => new
                 {
-                    s.ServiceID,
-                    s.ServiceName
+                    es.Service.ServiceID, // Servis ID'si
+                    es.Service.ServiceName // Servis Adı
                 })
                 .ToList();
 
             return Json(services);
         }
-
         public IActionResult appoCreate()
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

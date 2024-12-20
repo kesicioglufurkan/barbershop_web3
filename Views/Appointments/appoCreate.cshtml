@@ -1,98 +1,107 @@
-﻿@model barbershop_web3.Models.Appointment
+﻿    @{
+        ViewData["Title"] = "Create Appointment";
+    }
 
-@{
-    ViewData["Title"] = "Create Appointment";
-}
+    <div class="alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+    <div class="alert-success">
+        @TempData["SuccessMessage"]
+    </div>
 
-<h2>Create Appointment</h2>
+    <h2>Create Appointment</h2>
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
+    <form method="post" asp-action="appoCreate">
+        <div class="form-group">
+            <label for="SaloonID">Select a Saloon</label>
+            <select id="SaloonID" name="SaloonID" class="form-control" onchange="getEmployeesBySaloon(this.value)">
+                <option value="">-- Select Saloon --</option>
+                @foreach (var saloon in ViewBag.SaloonList)
+                {
+                    <option value="@saloon.SaloonID">@saloon.SaloonName</option>
+                }
+            </select>
+        </div>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+        <div class="form-group">
+            <label for="EmployeeID">Select an Employee</label>
+        <select id="EmployeeID" name="EmployeeID" class="form-control" onchange="getServicesByEmployee(this.value)">
+                <option value="">-- Select Employee --</option>
+            </select>
+        </div>
 
-<form asp-action="appoCreate" method="post">
-    <div class="form-group">
-        <label for="SaloonID">Saloon</label>
-        <select id="SaloonID" class="form-control">
-            <option value="">-- Select a Saloon --</option>
-            @foreach (var saloon in ViewBag.SaloonList)
-            {
-                <option value="@saloon.SaloonID">@saloon.SaloonName</option>
+        <div class="form-group">
+            <label for="ServiceID">Select a Service</label>
+            <select id="ServiceID" name="ServiceID" class="form-control">
+                <option value="">-- Select Service --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="AppointmentTime">Appointment Time</label>
+            <input type="datetime-local" id="AppointmentTime" name="AppointmentTime" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create Appointment" class="btn btn-primary" />
+        </div>
+    </form>
+
+    @section Scripts {
+        <script>
+
+                         function getEmployeesBySaloon(saloonId) {
+            if (saloonId) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", '/Appointments/GetEmployeesBySaloon?saloonId=' + saloonId, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var employees = JSON.parse(xhr.responseText);
+                        console.log(employees); // JSON çıktısını kontrol etmek için
+
+                        var employeeSelect = document.getElementById("EmployeeID");
+                        employeeSelect.innerHTML = '<option value="">-- Select Employee --</option>';
+                        employees.forEach(function (employee) {
+                            var option = document.createElement("option");
+                            option.value = employee.employeeID; // JSON alanı ile eşleşmeli
+                            option.text = employee.employeeName; // JSON alanı ile eşleşmeli
+                            employeeSelect.appendChild(option);
+                        });
+                    }
+                };
+                xhr.send();
+            } else {
+                document.getElementById("EmployeeID").innerHTML = '<option value="">-- Select Employee --</option>';
             }
-        </select>
-    </div>
+        }
 
-    <div class="form-group">
-        <label for="EmployeeID">Employee</label>
-        <select id="EmployeeID" name="EmployeeID" asp-for="EmployeeID" class="form-control" disabled>
-            <option value="">-- Select an Employee --</option>
-        </select>
-    </div>
+                function getServicesByEmployee(employeeId) {
+            if (employeeId) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", '/Appointments/GetServicesByEmployee?employeeId=' + employeeId, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var services = JSON.parse(xhr.responseText);
+                        console.log(services); // Konsolda doğru verileri kontrol edin
 
-    <div class="form-group">
-        <label for="ServiceID">Service</label>
-        <select id="ServiceID" name="ServiceID" asp-for="ServiceID" class="form-control" disabled>
-            <option value="">-- Select a Service --</option>
-        </select>
-    </div>
+                        var serviceSelect = document.getElementById("ServiceID");
+                        serviceSelect.innerHTML = '<option value="">-- Select Service --</option>';
+                        services.forEach(function (service) {
+                            var option = document.createElement("option");
+                            option.value = service.serviceID; // JSON'dan doğru key: serviceID
+                            option.text = service.serviceName; // JSON'dan doğru key: serviceName
+                            serviceSelect.appendChild(option);
+                        });
+                    }
+                };
+                xhr.send();
+            } else {
+                document.getElementById("ServiceID").innerHTML = '<option value="">-- Select Service --</option>';
+            }
+        }
 
-    <div class="form-group">
-        <label asp-for="AppointmentTime" class="control-label"></label>
-        <input asp-for="AppointmentTime" class="form-control" />
-        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Create Appointment</button>
-</form>
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Salon seçildiğinde çalışanları getir
-            $('#SaloonID').change(function () {
-                var saloonId = $(this).val();
-                if (saloonId) {
-                    $.ajax({
-                        url: '/Appointment/GetEmployeesBySaloon',
-                        type: 'GET',
-                        data: { saloonId: saloonId },
-                        success: function (data) {
-                            var employeeDropdown = $('#EmployeeID');
-                            employeeDropdown.empty().append('<option value="">-- Select an Employee --</option>');
-                            data.forEach(function (employee) {
-                                employeeDropdown.append('<option value="' + employee.EmployeeID + '">' + employee.EmployeeName + '</option>');
-                            });
-                            employeeDropdown.prop('disabled', false);
-                        }
-                    });
-                }
-            });
 
-            // Çalışan seçildiğinde servisleri getir
-            $('#EmployeeID').change(function () {
-                var employeeId = $(this).val();
-                if (employeeId) {
-                    $.ajax({
-                        url: '/Appointment/GetServicesByEmployee',
-                        type: 'GET',
-                        data: { employeeId: employeeId },
-                        success: function (data) {
-                            var serviceDropdown = $('#ServiceID');
-                            serviceDropdown.empty().append('<option value="">-- Select a Service --</option>');
-                            data.forEach(function (service) {
-                                serviceDropdown.append('<option value="' + service.ServiceID + '">' + service.ServiceName + '</option>');
-                            });
-                            serviceDropdown.prop('disabled', false);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-}
+
+        </script>
+    }

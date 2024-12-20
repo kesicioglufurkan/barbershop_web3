@@ -47,26 +47,39 @@ namespace barbershop_web3.Controllers
         public IActionResult employeeCreate(Employee employee, int[] SelectedServices)
         {
 
-                // Yeni çalışan kaydı
-                s.Employees.Add(employee);
-                s.SaveChanges();
+            employee.totalMoney = 0;
+            employee.totelWorkHour = 0;
+            // Yeni çalışan kaydı
+            s.Employees.Add(employee);
+            s.SaveChanges();
 
-                // Çalışana seçilen hizmetleri ekleme
-                foreach (var serviceId in SelectedServices)
+            // Çalışana seçilen hizmetleri ekleme
+            foreach (var serviceId in SelectedServices)
+            {
+                employee.Services ??= new List<Service>();
+                var service = s.Services.FirstOrDefault(s => s.ServiceID == serviceId);
+                if (service != null)
                 {
-                    employee.Services ??= new List<Service>();
-                    var service = s.Services.FirstOrDefault(s => s.ServiceID == serviceId);
-                    if (service != null)
-                    {
-                        employee.Services.Add(service);
-                    }
+                    employee.Services.Add(service);
                 }
+            }
 
-                s.SaveChanges();
+            s.SaveChanges();
 
-                TempData["msj"] = "Employee created successfully!";
-                return RedirectToAction("Index");
-;
+            TempData["msj"] = "Employee created successfully!";
+            return RedirectToAction("Index");
+            ;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            // Veritabanındaki tüm çalışanları al
+            var employees = await s.Employees
+                .Include(e => e.Saloon)  // Çalışanın bağlı olduğu salonu da dahil et
+                .ToListAsync();
+
+            // Çalışanları view'a gönder
+            return View(employees);
         }
     }
 

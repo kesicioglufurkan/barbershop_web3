@@ -14,6 +14,7 @@ namespace barbershop_web3.Models
         public DbSet<Saloon> Saloons { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<EmployeeService> EmployeeServices { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -21,6 +22,8 @@ namespace barbershop_web3.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder) //çoka çok kullanmak için
         {
+            modelBuilder.Entity<EmployeeService>().HasNoKey();
+
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.Services)
                 .WithMany(s => s.Employees)
