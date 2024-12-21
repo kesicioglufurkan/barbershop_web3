@@ -15,7 +15,7 @@ namespace barbershop_web3.Models
         public int Time { get; set; }
         [Required]
         [Display(Name = "Price")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public ICollection<Employee> Employees { get; set; } // Çoklu ilişki
     }
 

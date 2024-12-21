@@ -47,17 +47,21 @@ namespace barbershop_web3.Controllers
         [HttpGet]
         public JsonResult GetServicesByEmployee(int employeeId)
         {
-            var services = s.EmployeeServices
-                .Where(es => es.EmployeeID == employeeId) // Ara tabloda EmployeeID'ye göre filtreleme
+            var services = s.Set<Dictionary<string, object>>("EmployeeService")
+                .Where(es => EF.Property<int>(es, "EmployeeID") == employeeId) // EmployeeID'ye göre filtreleme
                 .Select(es => new
                 {
-                    es.Service.ServiceID, // Servis ID'si
-                    es.Service.ServiceName // Servis Adı
+                    ServiceID = EF.Property<int>(es, "ServiceID"), // ServiceID'yi çekiyoruz
+                    ServiceName = s.Services
+                        .Where(service => service.ServiceID == EF.Property<int>(es, "ServiceID"))
+                        .Select(service => service.ServiceName)
+                        .FirstOrDefault() // Servis adını ilişki üzerinden çekiyoruz
                 })
                 .ToList();
 
             return Json(services);
         }
+
         public IActionResult appoCreate()
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

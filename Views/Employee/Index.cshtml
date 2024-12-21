@@ -26,13 +26,19 @@
             <tr>
                 <td>@employee.EmployeeName</td>
                 <td>@employee.Saloon?.SaloonName</td>
-                <td>@employee.totalMoney ?? 0</td>
-                <td>@employee.totelWorkHour ?? 0</td>
+                <td>@employee.totalMoney</td>
+                <td>@employee.totelWorkHour</td>
+                <td>
+                    <!-- Edit butonu -->
+                    <a href="@Url.Action("employeeEdit", "Employee", new { id = employee.EmployeeID })" class="btn btn-warning btn-sm">Edit</a>
+
+                    <a asp-action="employeeDelete" asp-route-id="@employee.EmployeeID" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
 <div>
-    <a class="btn btn-success" href="@Url.Action("Create", "Employee")">Yeni Çalışan Ekle</a>
+    <a class="btn btn-success" href="@Url.Action("employeeCreate", "Employee")">Yeni Çalışan Ekle</a>
 </div>

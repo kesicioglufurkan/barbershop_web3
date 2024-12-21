@@ -85,7 +85,7 @@ namespace barbershop_web3.Controllers
 
 
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             else
             {
@@ -121,16 +121,37 @@ namespace barbershop_web3.Controllers
                 return RedirectToAction("Index");
 
         }
-
         [HttpPost]
         public IActionResult UpdateState(int id)
         {
+            // Randevuyu yükle
             var appointment = s.Appointments.FirstOrDefault(a => a.AppointmentID == id);
+
             if (appointment != null)
             {
-                appointment.AppointmentState = "1"; // Durum güncelleme işlemi
+                appointment.AppointmentState = "1"; // Durumu güncelle
+
+                // Service tablosundan fiyat ve süre bilgilerini al
+                var service = s.Services.FirstOrDefault(s => s.ServiceID == appointment.ServiceID);
+
+                if (service != null)
+                {
+                    // Çalışanın toplam parasını ve çalışma saatini güncelle
+                    var employee = s.Employees.FirstOrDefault(e => e.EmployeeID == appointment.EmployeeID);
+                    if (employee != null)
+                    {
+                        employee.totalMoney += service.Price; // Servis fiyatını ekle
+                        employee.totelWorkHour += service.Time; // Servis süresini ekle
+                    }
+
+                    TempData["SuccessMessage"] = "Appointment state and employee data updated successfully!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Service not found!";
+                }
+
                 s.SaveChanges();
-                TempData["SuccessMessage"] = "Appointment state updated successfully!";
             }
             else
             {
@@ -139,6 +160,27 @@ namespace barbershop_web3.Controllers
 
             return RedirectToAction("AdminPanel");
         }
+        // POST: User/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UserDelete(int id)
+        {
+            var user = s.Users.FirstOrDefault(u => u.UserID == id);
+            if (user != null)
+            {
+                s.Users.Remove(user);
+                s.SaveChanges();
+                TempData["SuccessMessage"] = "User deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "User not found!";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
     }
 }

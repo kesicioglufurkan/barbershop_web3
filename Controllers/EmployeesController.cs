@@ -81,6 +81,58 @@ namespace barbershop_web3.Controllers
             // Çalışanları view'a gönder
             return View(employees);
         }
+
+        public IActionResult employeeEdit(int id)
+        {
+            var employee = s.Employees.FirstOrDefault(e => e.EmployeeID == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult employeeEdit(Employee model)
+        {
+
+                var employee = s.Employees.FirstOrDefault(e => e.EmployeeID == model.EmployeeID);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                // Update the employee's name
+                employee.EmployeeName = model.EmployeeName;
+
+                s.SaveChanges();
+                TempData["SuccessMessage"] = "Employee updated successfully!";
+                return RedirectToAction("Index");
+            
+        }
+
+        [HttpGet]
+        public IActionResult employeeDelete(int id)
+        {
+            var employee = s.Employees.FirstOrDefault(e => e.EmployeeID == id);
+            if (employee != null)
+            {
+                s.Employees.Remove(employee);
+                s.SaveChanges();
+                TempData["SuccessMessage"] = "Employee deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Employee not found!";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+       
+
     }
 
 }

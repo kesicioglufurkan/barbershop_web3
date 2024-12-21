@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using barbershop_web3.Models;
 
@@ -11,9 +12,11 @@ using barbershop_web3.Models;
 namespace barbershop_web3.Migrations
 {
     [DbContext(typeof(SaloonContext))]
-    partial class SaloonContextModelSnapshot : ModelSnapshot
+    [Migration("20241220200112_ServiceMoneyFixed")]
+    partial class ServiceMoneyFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
