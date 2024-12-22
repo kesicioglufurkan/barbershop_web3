@@ -9,41 +9,54 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/barbershop_web3.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="background-color: #faf3e0;">
     @if (User.Identity.IsAuthenticated)
     {
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">barbershop_web3</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#faf3e0">Barber Shop</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="font-weight: bold; color: #faf3e0;" onmouseover="this.style.color='#3e2723'" onmouseout="this.style.color='#faf3e0'">Ana Sayfa</a>
+
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-							</li>
+                        
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="appoCreate">Randevu Al</a>
+                                <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="appoCreate" style="font-weight: bold; color: #faf3e0;" onmouseover="this.style.color='#3e2723'" onmouseout="this.style.color='#faf3e0' ">Randevu Al</a>
                             </li>
 							
-                            <li class="nav-item">
-								<a href="@Url.Action("Logout", "Users")" class="nav-link">Logout</a>
-							</li>
+                           
                             @if (User.IsInRole("Admin"))
                             {
-                                <a href="@Url.Action("AdminPanel", "Users")" class="nav-link">Admin Panel</a>
-                                <a href="@Url.Action("employeeCreate", "Employee")" class="nav-link">Personel Ekle</a>
-                                <a href="@Url.Action("serviceCreate", "Services")" class="nav-link">Servis Ekle</a>
-                                <a href="@Url.Action("SaloonCreate", "Saloons")" class="nav-link">Salon ekle</a>
-                                <a href="@Url.Action("userAdd", "Users")" class="nav-link">User ekle</a>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("AdminPanel", "Users")" class="nav-link admin-link">Admin Paneli</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="@Url.Action("employeeCreate", "Employee")" class="nav-link admin-link">Personel Ekle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("serviceCreate", "Services")" class="nav-link admin-link">Servis Ekle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("SaloonCreate", "Saloons")" class="nav-link admin-link">Salon Ekle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("userAdd", "Users")" class="nav-link admin-link">Kullanıcı Ekle</a>
+                                </li>
+
+                           
                             }
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Logout", "Users")" class="nav-link admin-link">Çıkış Yap</a>
+                            </li>
                     </ul>
                     
                 </div>
