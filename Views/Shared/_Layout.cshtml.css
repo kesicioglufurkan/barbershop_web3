@@ -18,18 +18,15 @@ a {
 }
 
 .navbar {
-    background-color: #3e2723; 
+    background-color: #6a4e3a;
 }
-
-
-
 
 .nav-item:hover {
     background-color: #faf3e0;
 }
 
 .nav-link:hover {
-    color: #3e2723;
+    color: #6a4e3a;
 }
 
 .admin-link {
@@ -43,7 +40,7 @@ body {
 
 
 .admin-link:hover {
-    color: #3e2723
+    color: #6a4e3a
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -69,9 +66,10 @@ button.accept-policy {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    text-align: center;
 }
