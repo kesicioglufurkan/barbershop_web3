@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<barbershop_web3.Models.User>
 
 @{
-    ViewData["Title"] = "User List";
+    ViewData["Title"] = "Kullanıcı Listesi";
 }
 
-<h2>User List</h2>
+<h2>@ViewData["Title"]</h2>
 
 <div>
     @if (TempData["SuccessMessage"] != null)
@@ -17,7 +17,7 @@
     }
 </div>
 
-<table class="table table-striped">
+<table class="table custom-table">
     <thead>
         <tr>
             <th>#</th>
@@ -35,9 +35,9 @@
                 <td>@user.UserNick</td>
                 <td>
                     <form asp-action="UserDelete" asp-route-id="@user.UserID" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm"
+                        <button type="submit" class="btn btn-danger btn-sm btn-custom-delete"
                                 onclick="return confirm('Are you sure you want to delete this user?');">
-                            Delete
+                            Sil
                         </button>
                     </form>
                 </td>
@@ -47,5 +47,5 @@
 </table>
 
 <div>
-    <a asp-action="Index" class="btn btn-primary">Add New User</a>
+    <a asp-action="Index" class="btn btn-primary btn-custom-add">Yeni Kullanıcı Ekle</a>
 </div>

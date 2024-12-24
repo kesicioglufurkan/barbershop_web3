@@ -8,13 +8,13 @@ namespace barbershop_web3.Models
         public int ServiceID { get; set; }
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Service name")]
+        [Display(Name = "Servis İsmi")]
         public string ServiceName { get; set; }
         [Required]
-        [Display(Name = "Time (hour)")]
+        [Display(Name = "Süre(saat)")]
         public int Time { get; set; }
         [Required]
-        [Display(Name = "Price")]
+        [Display(Name = "Ücret")]
         public int Price { get; set; }
         public ICollection<Employee> Employees { get; set; } // Çoklu ilişki
     }

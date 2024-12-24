@@ -7,8 +7,9 @@ namespace barbershop_web3.Models
         public int EmployeeID { get; set; }
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Employee Name")]
+        [Display(Name = "Personel Adı")]
         public string EmployeeName { get; set; }
+        [Display(Name = "Salon")]
         public int SaloonID { get; set; }
         public Saloon Saloon { get; set; }
         public int? totalMoney { get; set; }

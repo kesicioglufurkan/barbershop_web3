@@ -1,16 +1,16 @@
 ﻿@model barbershop_web3.Models.Saloon
 
 @{
-    ViewData["Title"] = "Create Salon";
+    ViewData["Title"] = "Salon Oluştur";
 }
 
-<h2>Create Salon</h2>
+<h2>@ViewData["Title"]</h2>
 
 <div class="alert-danger">
     @TempData["msj"]
 </div>
 
-<div class="row">
+<div class="center-form row">
     <div class="col-md-6">
         <form asp-action="SaloonCreate" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,15 +21,16 @@
                 <span asp-validation-for="SaloonName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create Salon" class="btn btn-primary" />
+            <div class="form-group text-center">
+                <input type="submit" value="Salon Oluştur" class="btn btn-primary btn-custom" />
             </div>
         </form>
+        <a asp-action="Index" class="git">Salon Listesine Git</a>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to Salon List</a>
+    
 </div>
 
 @section Scripts {

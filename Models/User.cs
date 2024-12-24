@@ -12,12 +12,12 @@ namespace barbershop_web3.Models
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "User nick")]
+        [Display(Name = "Kullanıcı Adı")]
         public string UserNick { get; set; }
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "User Sifre")]
+        [Display(Name = "Şifre")]
         public string UserPass { get; set; }
 
         public ICollection<Appointment>? Appointments { get; set; }
