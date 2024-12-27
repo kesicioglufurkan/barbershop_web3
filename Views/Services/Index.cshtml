@@ -29,8 +29,8 @@
                     <td>@service.Time</td>
                     <td>@service.Price.ToString("C")</td> <!-- Para birimi formatında gösterim -->
                     <td>
-                        <a asp-action="serviceEdit" asp-route-id="@service.ServiceID" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-action="serviceDelete" asp-route-id="@service.ServiceID" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-action="serviceEdit" asp-route-id="@service.ServiceID" class="btn btn-warning btn-sm btn-custom-table">Düzenle</a>
+                        <a asp-action="serviceDelete" asp-route-id="@service.ServiceID" class="btn btn-danger btn-sm btn-custom-table">Sil</a>
                     </td>
                 </tr>
             }
@@ -45,5 +45,5 @@
 </table>
 
 <div>
-    <a asp-action="serviceCreate" class="btn btn-primary btn-custom-add">Yeni Servis Ekle</a>
+    <a asp-action="serviceCreate" class="btn btn-primary btn-custom-table">Yeni Servis Ekle</a>
 </div>

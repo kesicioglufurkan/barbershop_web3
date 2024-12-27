@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<barbershop_web3.Models.Employee>
 
 @{
-    ViewData["Title"] = "Çalışan Listesi";
+    ViewData["Title"] = "Personel Listesi";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<div class="alert alert-info">
+<div class="alert alert-custom">
     @TempData["msj"]
 </div>
 
 <table class="table custom-table">
     <thead>
         <tr>
-            <th>Çalışan Adı</th>
+            <th>Personel Adı</th>
             <th>Salon Adı</th>
             <th>Toplam Para</th>
             <th>Toplam Çalışma Saati</th>
@@ -30,9 +30,9 @@
                 <td>@employee.totelWorkHour</td>
                 <td>
                     <!-- Edit butonu -->
-                    <a href="@Url.Action("employeeEdit", "Employee", new { id = employee.EmployeeID })" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="@Url.Action("employeeEdit", "Employee", new { id = employee.EmployeeID })" class="btn btn-sm btn-custom-table">Düzenle</a>
 
-                    <a asp-action="employeeDelete" asp-route-id="@employee.EmployeeID" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="employeeDelete" asp-route-id="@employee.EmployeeID" class="btn btn-sm btn-custom-table">Sil</a>
                 </td>
             </tr>
         }
@@ -40,5 +40,5 @@
 </table>
 
 <div>
-    <a class="btn btn-success btn-custom-add" href="@Url.Action("employeeCreate", "Employee")">Yeni Çalışan Ekle</a>
+    <a class="btn btn-custom-table" href="@Url.Action("employeeCreate", "Employee")">Yeni Personel Ekle</a>
 </div>

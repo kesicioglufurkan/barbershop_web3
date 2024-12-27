@@ -105,7 +105,7 @@ namespace barbershop_web3.Controllers
             {
                 s.Services.Remove(service);
                 s.SaveChanges();
-                TempData["SuccessMessage"] = "Service deleted successfully!";
+                
             }
             else
             {

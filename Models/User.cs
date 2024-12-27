@@ -8,11 +8,12 @@ namespace barbershop_web3.Models
 
         public int UserID { get; set; }
 
+        [Display(Name = "Kullanıcı Adı")]
         public string UserName { get; set; }
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Kullanıcı Adı")]
+        [Display(Name = "Kullanıcı Nicki")]
         public string UserNick { get; set; }
 
         [Required]

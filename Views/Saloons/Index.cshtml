@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<barbershop_web3.Models.Saloon>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salon Listesi";
 }
 
-<h1>Index</h1>
+<h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="SaloonCreate">Create New</a>
-</p>
-<table class="table">
+
+
+
+<table class="table custom-table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.SaloonName)
             </th>
-            <th></th>
+           
         </tr>
     </thead>
     <tbody>
@@ -25,13 +25,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.SaloonName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SaloonName)
-                </td>
-                <td>
-                    
-                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="SaloonCreate" class="btn btn-primary btn-custom-table">Yeni Salon Oluştur</a>
+</p>

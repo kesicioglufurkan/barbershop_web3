@@ -78,9 +78,7 @@ input.form-control, select.form-control, textarea.form-control {
     }
 
 
-
-
-.btn-custom {
+.btn-custom-form {
     background-color: #6a4e3a; 
     border-color: #6a4e3a; 
     color: #fff; 
@@ -92,10 +90,24 @@ input.form-control, select.form-control, textarea.form-control {
 }
 
     
-    .btn-custom:hover {
+    .btn-custom-form:hover {
         background-color: #563f2e; 
         border-color: #563f2e; 
         color: #fff; 
+    }
+
+.btn-custom-table {
+    background-color: #b5895a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-custom-table:hover {
+        background-color: #8f6740;
     }
 
     .text-center{
@@ -216,32 +228,11 @@ p {
         background-color: #e4d1b3; 
     }
 
-
-.btn-custom-delete {
-    background-color: #d9534f; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    transition: background-color 0.3s ease;
+.alert-custom {
+    background-color: #b5895a; /* Kahverengi (örnek) */
+    color: #fff; /* Yazý rengi */
+    border: 1px solid #5c4031; /* Kenarlýk */
+    border-radius: 5px; /* Köþe yumuþatma */
 }
-
-    .btn-custom-delete:hover {
-        background-color: #c9302c;
-    }
-
-.btn-custom-add {
-    background-color: #b5895a; 
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-    .btn-custom-add:hover {
-        background-color: #8f6740; 
-    }
 
 

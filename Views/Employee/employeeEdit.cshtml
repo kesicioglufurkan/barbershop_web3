@@ -1,14 +1,13 @@
 ﻿@model barbershop_web3.Models.Employee
 
 @{
-    ViewData["Title"] = "Edit Employee";
+    ViewData["Title"] = "Personel Düzenle";
 }
 
-<h2>Edit Employee</h2>
+<h2>@ViewData["Title"]</h2>
 
-<div class="alert alert-info">
-    @TempData["SuccessMessage"]
-</div>
+<div class="center-form row">
+    <div class="col-md-6">
 
 <form asp-action="EmployeeEdit" method="post">
     <input type="hidden" asp-for="EmployeeID" />
@@ -19,6 +18,8 @@
         <span asp-validation-for="EmployeeName" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary btn-custom">Değişiklikleri Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary btn-custom">İptal</a>
 </form>
+    </div>
+</div>

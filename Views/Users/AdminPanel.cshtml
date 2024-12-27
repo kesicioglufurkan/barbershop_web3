@@ -4,11 +4,11 @@
     ViewData["Title"] = "Admin Paneli";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h2>@ViewData["Title"]</h2>
 
 @if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    <div class="alert alert-custom">@TempData["SuccessMessage"]</div>
 }
 
 @if (TempData["ErrorMessage"] != null)
@@ -43,12 +43,12 @@
                     {
                         <form asp-action="UpdateState" method="post">
                             <input type="hidden" name="id" value="@appointment.AppointmentID" />
-                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                            <button type="submit" class="btn btn-sm btn-custom-table">Randevuyu Onayla</button>
                         </form>
                     }
                     else
                     {
-                        <span class="badge bg-primary">Approved</span>
+                        <span class="badge bg-dark">Onaylandı</span>
                     }
                 </td>
             </tr>

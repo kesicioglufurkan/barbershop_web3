@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="SaloonID">Salon Seç</label>
             <select id="SaloonID" name="SaloonID" class="form-control" onchange="getEmployeesBySaloon(this.value)">
-                <option value="">-- Select Saloon --</option>
+                <option value="">-- Salon Seç --</option>
                 @foreach (var saloon in ViewBag.SaloonList)
                 {
                     <option value="@saloon.SaloonID">@saloon.SaloonName</option>
@@ -29,14 +29,14 @@
         <div class="form-group">
             <label for="EmployeeID">Personel Seç</label>
         <select id="EmployeeID" name="EmployeeID" class="form-control" onchange="getServicesByEmployee(this.value)">
-                <option value="">-- Select Employee --</option>
+                <option value="">-- Personel Seç --</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="ServiceID">Servis Seç</label>
             <select id="ServiceID" name="ServiceID" class="form-control">
-                <option value="">-- Select Service --</option>
+                <option value="">-- Servis Seç --</option>
             </select>
         </div>
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="form-group text-center">
-            <input type="submit" value="Randevu Oluştur" class="btn btn-primary btn-custom" />
+            <input type="submit" value="Randevu Oluştur" class="btn btn-primary btn-custom-form" />
         </div>
     </form>
     </div>
@@ -65,7 +65,7 @@
                         console.log(employees); // JSON çıktısını kontrol etmek için
 
                         var employeeSelect = document.getElementById("EmployeeID");
-                        employeeSelect.innerHTML = '<option value="">-- Select Employee --</option>';
+                        employeeSelect.innerHTML = '<option value="">-- Personel Seç --</option>';
                         employees.forEach(function (employee) {
                             var option = document.createElement("option");
                             option.value = employee.employeeID; // JSON alanı ile eşleşmeli
@@ -76,7 +76,7 @@
                 };
                 xhr.send();
             } else {
-                document.getElementById("EmployeeID").innerHTML = '<option value="">-- Select Employee --</option>';
+                document.getElementById("EmployeeID").innerHTML = '<option value="">-- Personel Seç --</option>';
             }
         }
 
@@ -90,7 +90,7 @@
                         console.log(services); // Konsolda doğru verileri kontrol edin
 
                         var serviceSelect = document.getElementById("ServiceID");
-                        serviceSelect.innerHTML = '<option value="">-- Select Service --</option>';
+                        serviceSelect.innerHTML = '<option value="">-- Servis Seç --</option>';
                         services.forEach(function (service) {
                             var option = document.createElement("option");
                             option.value = service.serviceID; // JSON'dan doğru key: serviceID
@@ -101,7 +101,7 @@
                 };
                 xhr.send();
             } else {
-                document.getElementById("ServiceID").innerHTML = '<option value="">-- Select Service --</option>';
+                document.getElementById("ServiceID").innerHTML = '<option value="">-- Servis Seç --</option>';
             }
         }
 
