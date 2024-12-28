@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Yüz Şekli Analizi";
+}
+
+<h2>Fotoğraf Yükle</h2>
+
+<form method="post" enctype="multipart/form-data" asp-controller="HairSuggestion" asp-action="UploadImage">
+    <div>
+        <label for="file">Fotoğraf Seç:</label>
+        <input type="file" name="file" id="file" />
+    </div>
+    <div>
+        <button type="submit">Gönder</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+{
+    <p style="color: red;">@ViewData["ErrorMessage"]</p>
+}

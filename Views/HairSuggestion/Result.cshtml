@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Sonuç";
+}
+
+<h2>Yüz Şekli Analizi Sonucu</h2>
+
+@if (ViewBag.FaceShape != null)
+{
+    <p>Yüz Şekliniz: <strong>@ViewBag.FaceShape</strong></p>
+}
+else
+{
+    <p>Yüz şekli algılanamadı.</p>
+}
+
+@if (ViewBag.SuggestionImage != null)
+{
+    <h3>Saç Önerisi:</h3>
+    <!-- Flask'tan gelen resim yolunu doğru şekilde kullanın -->
+    <img src="@ViewBag.SuggestionImage" alt="Saç Önerisi" />
+}
+else
+{
+    <p>Uygun saç önerisi bulunamadı.</p>
+}
