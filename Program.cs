@@ -1,16 +1,21 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using barbershop_web3.Controllers;
 
 namespace barbershop_web3
 {
     public class Program
     {
-        // ConfigureServices metodunu kaldýrýyoruz çünkü .NET 6 ve sonrasý için direkt olarak builder üzerinden yapýlandýrma yapýlýyor
+        
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddHttpClient();
+            builder.Services.AddControllersWithViews();
+
 
             // Authentication ve Authorization hizmetlerini ekliyoruz
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
