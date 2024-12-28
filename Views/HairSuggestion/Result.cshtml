@@ -11,12 +11,15 @@
 else
 {
     <p>Yüz şekli algılanamadı.</p>
+
 }
+    
 
 @if (ViewBag.SuggestionImage != null)
 {
     <h3>Saç Önerisi:</h3>
-    <!-- Resmin doğru şekilde gösterilmesi için tam URL kullanın -->
+    <!-- Resmin doğru şekilde gösterilmesi için Flask'tan dönen URL'yi kullan -->
+
     <img src="@ViewBag.SuggestionImage" alt="Saç Önerisi" />
 }
 else

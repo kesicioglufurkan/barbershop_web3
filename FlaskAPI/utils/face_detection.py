@@ -1,5 +1,5 @@
-﻿import cv2
-import dlib
+﻿import dlib
+import cv2
 import numpy as np
 
 # dlib yüz tanıyıcıyı yükleyin
