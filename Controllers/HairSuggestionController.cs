@@ -47,12 +47,18 @@ namespace barbershop_web3.Controllers
 
                 // Flask API'ye POST isteği gönder
                 var response = await client.PostAsync("http://127.0.0.1:5000/analyze", requestContent);
+
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
                     dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject(responseData);
                     ViewBag.FaceShape = data.face_shape;
                     ViewBag.SuggestionImage = data.suggestion;  // /static/saclar/oval.png gibi bir değer alıyoruz.
+
+                    // SuggestionImage URL'sine tam yolu ekle
+                    // Eğer Flask API'si 127.0.0.1:5000'de çalışıyorsa:
+                    ViewBag.SuggestionImage = $"http://127.0.0.1:5000{ViewBag.SuggestionImage}";
+
                     return View("Result");
                 }
                 else
@@ -68,8 +74,6 @@ namespace barbershop_web3.Controllers
                 return View("Index");
             }
         }
-
-
-
     }
+
 }
